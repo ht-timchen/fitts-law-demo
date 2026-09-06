@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A mobile-first Fitts' Law pointing experiment that records movement time against index of difficulty."
+    />
+    <title>Fitts' Law Playground</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>Fitts' Law Playground</h1>
+      <p class="prompt">Tap each target as quickly and accurately as you can.</p>
+    </header>
+
+    <section class="controls" aria-label="Session controls">
+      <fieldset class="difficulty">
+        <legend>Difficulty</legend>
+        <div class="segmented">
+          <label>
+            <input type="radio" name="difficulty" value="mixed" checked />
+            Mixed
+          </label>
+          <label>
+            <input type="radio" name="difficulty" value="easy" />
+            Easy
+          </label>
+          <label>
+            <input type="radio" name="difficulty" value="medium" />
+            Medium
+          </label>
+          <label>
+            <input type="radio" name="difficulty" value="hard" />
+            Hard
+          </label>
+        </div>
+      </fieldset>
+      <div class="control-actions">
+        <button type="button" id="reset-btn">Reset</button>
+        <button type="button" id="download-btn" disabled aria-describedby="csv-hint">
+          Download CSV
+        </button>
+      </div>
+      <p id="csv-hint" class="hint">Available after the first measured trial.</p>
+    </section>
+
+    <section class="experiment" id="experiment" aria-label="Experiment area">
+      <button
+        type="button"
+        class="target"
+        id="target"
+        aria-label="Target — activate as quickly as possible."
+      ></button>
+      <span class="hit-flash" id="hit-flash" aria-hidden="true"></span>
+    </section>
+
+    <p id="status-live" class="visually-hidden" aria-live="polite"></p>
+
+    <section class="stats" aria-label="Live statistics">
+      <div class="stat">
+        <span class="stat-label">Latest MT</span>
+        <span class="stat-value" id="stat-latest">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Current ID</span>
+        <span class="stat-value" id="stat-id">Warm-up</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Trials</span>
+        <span class="stat-value" id="stat-trials">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Average MT</span>
+        <span class="stat-value" id="stat-average">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Accuracy</span>
+        <span class="stat-value" id="stat-accuracy">—</span>
+      </div>
+    </section>
+
+    <section class="chart-panel" aria-label="Movement time chart">
+      <h2>Movement time vs difficulty</h2>
+      <svg
+        id="chart"
+        class="chart"
+        viewBox="0 0 600 280"
+        role="img"
+        aria-hidden="true"
+        focusable="false"
+      ></svg>
+      <p id="equation" class="equation">Complete 5 varied trials to see your trend.</p>
+      <div class="fit-params" aria-label="Fitted parameters">
+        <div class="stat">
+          <span class="stat-label">Intercept a</span>
+          <span class="stat-value" id="stat-intercept">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Slope b</span>
+          <span class="stat-value" id="stat-slope">—</span>
+        </div>
+      </div>
+      <p id="chart-summary" class="chart-summary">
+        Scatterplot of movement time against index of difficulty. No measured trials yet.
+      </p>
+    </section>
+
+    <section class="explanation">
+      <h2>What you are seeing</h2>
+      <p>Fitts' Law formulas:</p>
+      <ul class="formulas">
+        <li><code>ID = log<sub>2</sub>(D / W + 1)</code> <span>bits</span></li>
+        <li><code>MT = a + b × ID</code> <span>milliseconds</span></li>
+      </ul>
+      <p>
+        <code>D</code> is the distance to the target, <code>W</code> is the target diameter,
+        <code>a</code> is the intercept, and <code>b</code> is the slope in milliseconds per
+        bit. Targets take longer to reach when they are farther away or smaller. Your dots
+        show each attempt; the trend line estimates how movement time changes as difficulty
+        increases. In interface design, larger targets placed closer to where the pointer
+        already is are usually faster and easier to select.
+      </p>
+    </section>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
